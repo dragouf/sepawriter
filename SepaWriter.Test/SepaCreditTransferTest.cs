@@ -2,9 +2,9 @@
 using System.IO;
 using System.Xml;
 using NUnit.Framework;
-using Perrich.SepaWriter.Utils;
+using SepaWriter.Utils;
 
-namespace Perrich.SepaWriter.Test
+namespace SepaWriter.Test
 {
     [TestFixture]
     public class SepaCreditTransferTest

@@ -5,7 +5,7 @@ using System.Xml;
 using System.Xml.Schema;
 using log4net;
 
-namespace Perrich.SepaWriter.Utils
+namespace SepaWriter.Utils
 {
     /// <summary>
     ///     Allow to validate XML against the known XSD.

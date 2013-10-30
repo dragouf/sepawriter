@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace Perrich.SepaWriter.Utils
+namespace SepaWriter.Utils
 {
     /// <summary>
     ///     Some Utilities to manage strings

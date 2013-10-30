@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
-using Perrich.SepaWriter.Utils;
+using SepaWriter.Utils;
 
-namespace Perrich.SepaWriter
+namespace SepaWriter
 {
     /// <summary>
     ///     Manage SEPA (Single Euro Payments Area) CreditTransfer for SEPA or international order.
@@ -59,7 +59,7 @@ namespace Perrich.SepaWriter
         /// <summary>
         ///     Payment method
         /// </summary>
-        private string paymentMethod = Constant.TransfertPaymentMethod;
+        private string paymentMethod = Constant.CreditTransfertPaymentMethod;
 
         /// <summary>
         ///     Requested Execution Date (default is object creation date)

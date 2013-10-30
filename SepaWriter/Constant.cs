@@ -1,4 +1,4 @@
-﻿namespace Perrich.SepaWriter
+﻿namespace SepaWriter
 {
     /// <summary>
     /// Some Constants...
@@ -14,6 +14,7 @@
         /// <summary>
         ///     Transfert Payment method
         /// </summary>
-        public const string TransfertPaymentMethod = "TRF";
+        public const string CreditTransfertPaymentMethod = "TRF";
+        public const string DebitTransfertPaymentMethod = "DD";
     }
 }
