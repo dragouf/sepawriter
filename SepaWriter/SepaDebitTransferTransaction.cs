@@ -4,7 +4,7 @@ using SepaWriter.Utils;
 namespace SepaWriter
 {
     /// <summary>
-    /// Define a SEPA Credit Transfer Transaction
+    /// Define a SEPA Debit Transfer Transaction
     /// </summary>
     public class SepaDebitTransferTransaction : ICloneable
     {
@@ -111,7 +111,7 @@ namespace SepaWriter
         /// <returns></returns>
         public object Clone()
         {
-            var row = (SepaCreditTransferTransaction) MemberwiseClone();
+            var row = (SepaDebitTransferTransaction)MemberwiseClone();
             row.Creditor = (SepaIbanData) Creditor.Clone();
 
             return row;

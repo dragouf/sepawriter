@@ -12,7 +12,7 @@ namespace SepaWriter
         B2B
     }
     /// <summary>
-    ///     Manage SEPA (Single Euro Payments Area) CreditTransfer for SEPA or international order.
+    ///     Manage SEPA (Single Euro Payments Area) DebitTransfer for SEPA or international order.
     ///     Only one PaymentInformation is managed but it can manage multiple transactions.
     /// </summary>
     public class SepaDebitTransfer
@@ -134,7 +134,7 @@ namespace SepaWriter
         }
 
         /// <summary>
-        ///     Add an existing credit transfer transaction
+        ///     Add an existing Debit transfer transaction
         /// </summary>
         /// <param name="transfer"></param>
         /// <exception cref="ArgumentNullException">If transfert is null.</exception>
@@ -253,7 +253,7 @@ namespace SepaWriter
                         .NewElement("Othr");
             othr.NewElement("Id", PersonId);
             othr.NewElement("SchmeNm").NewElement("Prtry", "SEPA");
-            // Part 3: Credit Transfer Transaction Information
+            // Part 3: Debit Transfer Transaction Information
             foreach (SepaDebitTransferTransaction transfer in transactions)
             {
                 GenerateTransaction(pmtInf, transfer);
