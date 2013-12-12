@@ -27,7 +27,7 @@ namespace SepaWriter
         /// <summary>
         ///    Date on which the direct debit mandate has been signed by the debtor.
         /// </summary>
-        public string DateOfSignature { get; set; }
+        public DateTime DateOfSignature { get; set; }
 
         /// <summary>
         ///     Unique identification, as assigned by the creditor, to unambiguously identify the mandate.

@@ -1,5 +1,6 @@
 ﻿using System;
 using SepaWriter.Utils;
+using System.Text.RegularExpressions;
 
 namespace SepaWriter
 {
@@ -48,8 +49,8 @@ namespace SepaWriter
             get { return iban; }
             set
             {
-                if (value == null || value.Length < 14 || value.Length > 34)
-                    throw new SepaRuleException("Invalid IBAN code.");
+                if (value == null || value.Length < 14 || value.Length > 34 || !Regex.Match(value, "[A-Z]{2,2}[0-9]{2,2}[a-zA-Z0-9]{1,30}").Success)
+                    throw new SepaRuleException(string.Format("Invalid IBAN code {0}", value));
                 iban = value;
             }
         }

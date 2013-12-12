@@ -11,6 +11,26 @@ namespace SepaWriter
         CORE,
         B2B
     }
+
+    public enum SequenceType
+    {
+        /// <summary>
+        /// 1er d'une serie
+        /// </summary>
+        FRST,
+        /// <summary>
+        /// récurrent-série en cours
+        /// </summary>
+        RCUR, 
+        /// <summary>
+        /// dernier d'une série
+        /// </summary>
+        FNAL,
+        /// <summary>
+        ///  ponctuel
+        /// </summary>
+        OOFF
+    }
     /// <summary>
     ///     Manage SEPA (Single Euro Payments Area) DebitTransfer for SEPA or international order.
     ///     Only one PaymentInformation is managed but it can manage multiple transactions.
@@ -76,11 +96,13 @@ namespace SepaWriter
         /// </summary>
         public DateTime RequestedExecutionDate { get; set; }
 
+        public SequenceType SequenceType { get; set; }
         public SepaDebitTransfer()
         {
             CreationDate = DateTime.Now;
             RequestedExecutionDate = CreationDate.Date;
             DebtorAccountCurrency = Constant.EuroCurrency;
+            SequenceType = SepaWriter.SequenceType.RCUR;
         }
 
         /// <summary>
@@ -211,7 +233,7 @@ namespace SepaWriter
             xml.AppendChild(xml.CreateXmlDeclaration("1.0", Encoding.UTF8.BodyName, "yes"));
             var el = (XmlElement)xml.AppendChild(xml.CreateElement("Document"));
             el.SetAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
-            el.SetAttribute("xmlns", "urn:iso:std:iso:20022:tech:xsd:pain.001.001.03");
+            el.SetAttribute("xmlns", "urn:iso:std:iso:20022:tech:xsd:pain.008.001.02");
             el.NewElement("CstmrDrctDbtInitn");
 
             // Part 1: Group Header
@@ -233,10 +255,11 @@ namespace SepaWriter
             pmtInf.NewElement("PmtMtd", paymentMethod);
             pmtInf.NewElement("NbOfTxs", numberOfTransactions);
             pmtInf.NewElement("CtrlSum", StringUtils.FormatAmount(paymentControlSum));
-            pmtInf.NewElement("PmtTpInf").NewElement("SvcLvl").NewElement("Cd", "SEPA");
+            var PmtTpInf = pmtInf.NewElement("PmtTpInf");
+            PmtTpInf.NewElement("SvcLvl").NewElement("Cd", "SEPA");
             if (LocalInstrumentCode != null)
-                XmlUtils.GetFirstElement(xml, "PmtTpInf").NewElement("LclInstrm")
-                        .NewElement("Cd", LocalInstrumentCode.ToString());
+                PmtTpInf.NewElement("LclInstrm").NewElement("Cd", LocalInstrumentCode.ToString());
+            PmtTpInf.NewElement("SeqTp", SequenceType.ToString());
 
             pmtInf.NewElement("ReqdColltnDt", StringUtils.FormatDate(RequestedExecutionDate));
             pmtInf.NewElement("Cdtr").NewElement("Nm", Debtor.Name);
@@ -278,7 +301,7 @@ namespace SepaWriter
            
             var MndtRltdInf = cdtTrfTxInf.NewElement("DrctDbtTx").NewElement("MndtRltdInf");
             MndtRltdInf.NewElement("MndtId", transfer.MandateIdentification);
-            MndtRltdInf.NewElement("DtOfSgntr", transfer.DateOfSignature);
+            MndtRltdInf.NewElement("DtOfSgntr", transfer.DateOfSignature.ToString("yyyy-MM-dd"));
 
             cdtTrfTxInf.NewElement("DbtrAgt").NewElement("FinInstnId").NewElement("BIC", transfer.Creditor.Bic);
             cdtTrfTxInf.NewElement("Dbtr").NewElement("Nm", transfer.Creditor.Name);
